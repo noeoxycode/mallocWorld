@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/mallocWorld.iml" filepath="$PROJECT_DIR$/.idea/mallocWorld.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/mallocWorld2.iml" filepath="$PROJECT_DIR$/.idea/mallocWorld2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/mallocWorld3.iml" filepath="$PROJECT_DIR$/.idea/mallocWorld3.iml" />
     </modules>
   </component>
 </project>
