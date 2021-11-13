@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+//#include "monstres.c"
 int ** createMap(int level);
 void displayMap(int **map,int level);
 int *** listMapGenerator();
@@ -85,8 +86,12 @@ int **fillWall(int **map, int mapLevel){
         y = rand() % getMapSize(mapLevel);
         if (map[x][y] == 0)
         {
-            map[x][y] = -1;
-            i++;
+            if (map[x][y-1] != -1 || map[x][y+1] != -1)
+            {
+                map[x][y] = -1;
+                i++;
+            }
+
         }
     }
     //place les murs
@@ -114,7 +119,7 @@ int **fillMob(int **map, int mapLevel){
         randomMonster = ( rand() % 15 ) + 12;
         x = rand()% (getMapSize(mapLevel));
         y = rand()% (getMapSize(mapLevel));
-        if (map[x][y] == 0)
+        if (map[x][y] == 0 /*&& monstres[randomMonster].lvlvalue == mapLevel*/)
         {
             map[x][y] = randomMonster;
             i++;
