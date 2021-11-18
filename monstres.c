@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Monstre{
     int id;
@@ -9,8 +10,8 @@ typedef struct Monstre{
     int zone;
 }Monstre;
 
-int momo(int argc, const char * argv[]){
-    Monstre monstre[26];
+Monstre* momo(){
+    Monstre* monstre = malloc(sizeof(monstre)*26);
 
     Monstre m1;
     m1.id = 12;
@@ -167,5 +168,7 @@ int momo(int argc, const char * argv[]){
     boss.HP = 50;
     boss.temps_reaparition = 0;
     monstre[25]=boss;
+
+    return monstre;
 
 }
