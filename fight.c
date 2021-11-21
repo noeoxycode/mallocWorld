@@ -68,7 +68,7 @@ void chooseStuff (Player player)
 }
 
 Player monsterAttack (Player player, Monstre monster){
-    player.currentHP -= (monster.niveau * 2);
+    player.currentHP -= (monster.Level * 2);
 }
 
 Monstre playerAttack (Player player, Monstre monster){
@@ -101,32 +101,49 @@ Player coward (Player player) {
     return player;
 }
 
+Player updateXp(Player player, int xp)
+{
+    if ((player.currentExperience + xp) > player.maxExperience)
+    {
+        player.niveau++;
+        player.currentHP = player.maxHP;
+        player.currentExperience = (player.currentExperience + xp) - player.maxExperience;
+    }
+    else
+        player.currentExperience += xp;
+}
+
 Player chooseAction (Player player, Monstre monster){
     printf("Il vous reste %d HP, et %d possède %d HP", player.currentHP, monster, monster.HP);
     int choice = 0;
     printf("Quelle action voulez-vous effectuer ?");
     printf("1 : Utiliser  une potion /n 2 : Attaquer /n 3 : Fuir");
-    while (choice != 1 & choice != 2 & choice != 3)
+    while (choice != 1 & choice != 2 & choice != 3 & choice != 0)
         choice = scanf(choice);
+    //choix de prendre une potion
     if (choice == 1)
     {
         player = usePotion(player);
         if (monster.HP > 0)
             player = monsterAttack(player, monster);
     }
+    //choix d'attaquer
     else if (choice == 2)
     {
         monster = playerAttack(player, monster);
         player = updateWeapon(player);
         if (monster.HP > 0)
             player = monsterAttack(player, monster);
+        else
+        {
+            player = updateXp(player, (monster.Level * 2));
+            choice = 0;
+        }
     }
     else if (choice == 3)
         player = coward(player);
-}
-
-void exitFight(){
-
+    else if (choice == 0)
+        return player;
 }
 
 void gameOver(){
