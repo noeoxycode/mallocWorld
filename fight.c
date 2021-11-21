@@ -130,7 +130,7 @@ void exitFight(){
 }
 
 void gameOver(){
-
+    printf("gameOver :(");
 }
 
 void fight (Player player, Monstre monster)
@@ -139,8 +139,6 @@ void fight (Player player, Monstre monster)
     chooseStuff(player);
     while (player.currentHP > 0 || monster.HP > 0)
         player = chooseAction(player, monster);
-    if (player.currentHP > 0)
-        exitFight();
-    else
+    if (player.currentHP <= 0)
         gameOver();
 }
