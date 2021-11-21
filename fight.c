@@ -105,8 +105,7 @@ Player updateXp(Player player, int xp)
 {
     if ((player.currentExperience + xp) > player.maxExperience)
     {
-        player.niveau++;
-        player.currentHP = player.maxHP;
+        player = niveauUp(player);
         player.currentExperience = (player.currentExperience + xp) - player.maxExperience;
     }
     else
