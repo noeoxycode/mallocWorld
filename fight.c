@@ -22,7 +22,7 @@ bool confirmation () {
         return false;
 }
 
-Item chooseArmor (Player player) {
+int chooseArmor (Player player) {
     //affichage de touts les items
     printf("Choisis ton armure :");
     //voir dans linventaire
@@ -38,13 +38,12 @@ Item chooseArmor (Player player) {
     if (check == false)
         chooseArmor(player);
     else
-        return player.inventaire[armure];
+        return player.inventaire[armure].effet;
 }
 
 Item chooseWeapon (Player player) {
-    //affichage de toutes les armes
     printf("Choisis ton arme :");
-    //voir dans linventaire
+    //affichage de toutes les armes
     for (int i = 0; i < 10 ; i++)
     {
         if (player.inventaire[i].nom && player.inventaire[i].type == "Arme" && player.inventaire[i].durabilite > 0)
@@ -53,6 +52,7 @@ Item chooseWeapon (Player player) {
     int arme;
     scanf("%d", &arme);
     printf("Tu as choisis %d " , player.inventaire[arme].nom);
+    //on demande si l'utilisateur est sûr de son choix, si true alors on continue, si false on refait
     bool check = confirmation();
     if (check == false)
         chooseWeapon(player);
@@ -64,7 +64,7 @@ void chooseStuff (Player player)
 {
     printf("Choisis ton équipement : ");
     player.currentWeapon = chooseWeapon(player);
-    chooseArmor(player);
+    player.armure = chooseArmor(player);
 }
 
 Player monsterAttack (Player player, Monstre monster){
