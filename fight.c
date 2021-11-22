@@ -116,9 +116,9 @@ Player chooseAction (Player player, Monstre monster){
     int choice = 0;
     printf("Quelle action voulez-vous effectuer ?");
     printf("1 : Utiliser  une potion /n 2 : Attaquer /n 3 : Fuir");
-    while (choice != 1 & choice != 2 & choice != 3 & choice != 0)
+    while  (choice < 0 || choice > 3)
     {
-        scanf("%i", choice);
+        scanf("%d", &choice);
     }
 
     //choix de prendre une potion

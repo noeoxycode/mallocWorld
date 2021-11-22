@@ -3,4 +3,4 @@ project(mallocWorld C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(mallocWorld main.c cmake-build-debug/item.h)
+add_executable(mallocWorld main.c item.h)
