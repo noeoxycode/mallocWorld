@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "item.c"
+#include "item.h"
 
 typedef struct Player{
     char* Nom;

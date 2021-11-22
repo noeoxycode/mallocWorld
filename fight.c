@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <stdbool.h>
 #include "player.c"
 #include "monstres.c"
@@ -118,7 +117,10 @@ Player chooseAction (Player player, Monstre monster){
     printf("Quelle action voulez-vous effectuer ?");
     printf("1 : Utiliser  une potion /n 2 : Attaquer /n 3 : Fuir");
     while (choice != 1 & choice != 2 & choice != 3 & choice != 0)
-        choice = scanf(choice);
+    {
+        scanf("%i", choice);
+    }
+
     //choix de prendre une potion
     if (choice == 1)
     {

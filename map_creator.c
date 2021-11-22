@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-//#include "monstres.c"
 int ** createMap(int level);
 void displayMap(int **map,int level);
 int *** listMapGenerator();

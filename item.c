@@ -2,15 +2,6 @@
 #include <stdlib.h>
 #include "Data_creator.c"
 
-typedef struct Item{
-    int id;
-    char* nom;
-    char* type; //Arme Outil Ressources de craft Soin Armure
-    int durabilite;
-    int quantite;
-    int effet;// degat ou restance d'armure ou soin
-}Item;
-
 Item* getItem(){
     Item* item = malloc(sizeof(item)*34);;
     for(int i = 0;i < 34;i++){
