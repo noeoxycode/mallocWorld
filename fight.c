@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "player.c"
-#include "monstres.c"
+#include <string.h>
+#include "player.h"
+#include "monstres.h"
 
 bool confirmation () {
     printf("Es-tu sûr de ton choix ? ");
@@ -15,7 +16,7 @@ bool confirmation () {
         printf("1 : Oui    2 : Refaire mon choix");
         scanf("%d",&response);
     }
-    if (response = 1)
+    if (response == 1)
         return true;
     else
         return false;
@@ -27,12 +28,12 @@ int chooseArmor (Player player) {
     //voir dans linventaire
     for (int i = 0; i < 10 ; i++)
     {
-        if (player.inventaire[i].nom && player.inventaire[i].type == "Armure")
-            printf("%d : %d", i, player.inventaire[i].nom);
+        if (strcmp( player.inventaire[i].type , "Armure")==0)
+            printf("%d : %s", i, player.inventaire[i].nom);
     }
     int armure;
     scanf("%d", &armure);
-    printf("Tu as choisis %d",  player.inventaire[armure].nom);
+    printf("Tu as choisis %s",  player.inventaire[armure].nom);
     bool check = confirmation();
     if (check == false)
         chooseArmor(player);
@@ -45,12 +46,12 @@ Item chooseWeapon (Player player) {
     //affichage de toutes les armes
     for (int i = 0; i < 10 ; i++)
     {
-        if (player.inventaire[i].nom && player.inventaire[i].type == "Arme" && player.inventaire[i].durabilite > 0)
-            printf("%d : %d", i, player.inventaire[i].nom);
+        if (strcmp( player.inventaire[i].type , "Arme")==0 && player.inventaire[i].durabilite > 0)
+            printf("%d : %s", i, player.inventaire[i].nom);
     }
     int arme;
     scanf("%d", &arme);
-    printf("Tu as choisis %d " , player.inventaire[arme].nom);
+    printf("Tu as choisis %s " , player.inventaire[arme].nom);
     //on demande si l'utilisateur est sûr de son choix, si true alors on continue, si false on refait
     bool check = confirmation();
     if (check == false)
@@ -63,7 +64,7 @@ void chooseStuff (Player player)
 {
     printf("Choisis ton équipement : ");
     player.currentWeapon = chooseWeapon(player);
-    player.armure = chooseArmor(player);
+    player.armure = chooseArmor(player)/10;
 }
 
 Player monsterAttack (Player player, Monstre monster){
@@ -112,31 +113,26 @@ Player updateXp(Player player, int xp)
 }
 
 Player chooseAction (Player player, Monstre monster){
-    printf("Il vous reste %d HP, et %d possède %d HP", player.currentHP, monster, monster.HP);
+    printf("Il vous reste %d HP, et %s possède %d HP", player.currentHP, monster.nom, monster.HP);
     int choice = 0;
     printf("Quelle action voulez-vous effectuer ?");
     printf("1 : Utiliser  une potion /n 2 : Attaquer /n 3 : Fuir");
-    while  (choice < 0 || choice > 3)
-    {
+    while  (choice < 0 || choice > 3){
         scanf("%d", &choice);
     }
-
     //choix de prendre une potion
-    if (choice == 1)
-    {
+    if (choice == 1){
         player = usePotion(player);
         if (monster.HP > 0)
             player = monsterAttack(player, monster);
     }
     //choix d'attaquer
-    else if (choice == 2)
-    {
+    else if (choice == 2){
         monster = playerAttack(player, monster);
         player = updateWeapon(player);
-        if (monster.HP > 0)
+        if (monster.HP > 0) {
             player = monsterAttack(player, monster);
-        else
-        {
+        }else{
             player = updateXp(player, (monster.Level * 2));
             choice = 0;
         }

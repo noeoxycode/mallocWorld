@@ -4,7 +4,9 @@
 
 #ifndef MALLOCWORLD_ITEM_H
 #define MALLOCWORLD_ITEM_H
-
+#include <stdio.h>
+#include <stdlib.h>
+#include "Data_creator.c"
 typedef struct Item{
     int id;
     char* nom;

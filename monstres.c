@@ -1,18 +1,7 @@
-#include <stdio.h>
+#include "monstres.h"
 
-typedef struct Monstre{
-    int id;
-    char* nom;
-    int HP;
-    int Level;
-    int temps_reaparition;
-    int position_x;
-    int position_y;
-    int zone;
-}Monstre;
-
-int momo(int argc, const char * argv[]){
-    Monstre monstre[26];
+Monstre *getMobBase() {
+    Monstre* monstre= malloc(sizeof (Monstre)*26);
 
     Monstre m1;
     m1.id = 12;
@@ -221,5 +210,6 @@ int momo(int argc, const char * argv[]){
     boss.Level = 5;
     boss.temps_reaparition = 0;
     monstre[25]=boss;
+    return monstre;
 
 }

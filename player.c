@@ -1,19 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include "item.h"
-
-typedef struct Player{
-    char* Nom;
-    int currentHP;
-    int maxHP;
-    int* position_joueur;// [nbMap, x , y]
-    Item inventaire[10];
-    int currentExperience;
-    int maxExperience;
-    int niveau;
-    float armure;
-    Item currentWeapon;
-}Player;
+#include "player.h"
 
 void getPlayer(Player *p){
     printf("Nom : %s\ncurrentHP : %d\nmaxHP : %d\n"
@@ -26,11 +11,15 @@ void getPlayer(Player *p){
 }
 
 void initPlayer(Player *p,char* nom){
+    Item* listItem=getItem();
     p -> Nom = nom;
     p -> currentHP = 100;
     p -> maxHP = 100;
     p -> niveau = 1;
     p -> maxExperience = 10;
+    for (int i=0;i<4;i++) {
+        p->inventaire[i] = listItem[i];
+    }
 }
 
 Player niveauUp(Player p){

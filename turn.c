@@ -124,7 +124,7 @@ int ** PlayTurn(int **map, int size,int lvl){
     if(arou[choix-1]==0){
         map=move(map,choix,size);
     }else if(arou[choix-1]>12){
-        fight(player,monstre);
+        //fight(player,monstre);
     }else if(arou[choix-1]==2){
         //pnj()
     }else if(arou[choix-1]<12&&arou[choix-1]>2){

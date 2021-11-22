@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "Data_creator.c"
+
+#include "item.h"
 
 Item* getItem(){
     Item* item = malloc(sizeof(item)*34);;
