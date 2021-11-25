@@ -16,5 +16,6 @@ typedef struct Item{
     int effet;// degat ou restance d'armure ou soin
 }Item;
 Item* getItem();
+void itemClear(Item *p);
 
 #endif //MALLOCWORLD_ITEM_H

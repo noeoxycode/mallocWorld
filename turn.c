@@ -116,20 +116,21 @@ int **move(int** map,int dir,int size){
 
 
 
-int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* *monstreList){
+int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* monstreList){
     int mobCpt=0;
     int *arou= getPlayerAround(map,size);
     int choix=userChoise(arou,lvl);
     printf("%d %d\n",choix,arou[choix-1]);
     if(arou[choix-1]==0){
         map=move(map,choix,size);
-    }else if(arou[choix-1]>12){
+    }else if(arou[choix-1]>=12){
         for (int i=0;i<26;i++){
-            if(monstreList[i]->id==arou[choix-1]){
+            if(monstreList[i].id==arou[choix-1]){
                 mobCpt=i;
             }
         }
         fight(player,monstreList[mobCpt]);
+        map=move(map,choix,size);
     }else if(arou[choix-1]==2){
         //pnj()
     }else if(arou[choix-1]<12&&arou[choix-1]>2){

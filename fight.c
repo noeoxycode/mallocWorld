@@ -54,21 +54,30 @@ int chooseArmor(Player *player) {
 
 Item chooseWeapon(Player *player) {
     printf("Choisis ton arme :\n");
+    /*for (int i=0;i<10;i++){
+        printf("%d : %d",i,player->inventaire[i].durabilite);
+    }*/
+    int cpt = 0;
     //affichage de toutes les armes
-    for (int i = 0; i < 10 ; i++)
-    {
-        if (strcmp( player->inventaire[i].type , "Arme")==0 && player->inventaire[i].durabilite > 0)
+    for (int i = 0; i < 10; i++) {
+        if (strcmp(player->inventaire[i].type, "Arme") == 0 && player->inventaire[i].durabilite > 0) {
             printf("%d : %s\n", i, player->inventaire[i].nom);
+            cpt++;
+        }
     }
-    int arme;
-    scanf(" %d", &arme);
-    printf("Tu as choisis %s " , player->inventaire[arme].nom);
-    //on demande si l'utilisateur est sûr de son choix, si true alors on continue, si false on refait
-    bool check = confirmation();
-    if (check == false)
-        chooseWeapon(player);
-    else
-        player->currentWeapon=player->inventaire[arme];
+    if (cpt != 0) {
+        int arme;
+        scanf(" %d", &arme);
+        printf("Tu as choisis %s \n", player->inventaire[arme].nom);
+        //on demande si l'utilisateur est sûr de son choix, si true alors on continue, si false on refait
+        bool check = confirmation();
+        if (check == false)
+            chooseWeapon(player);
+        else
+            player->inventaire[player->currentWeapon] = player->inventaire[arme];
+    }else{
+        player->currentWeapon=-1;
+    }
 }
 
 
@@ -82,78 +91,122 @@ Player chooseStuff(Player *player) {
 
 Player monsterAttack(Player *player, Monstre *monster) {
     printf("aie!!!\n");
-    player.currentHP -= ((monster.Level * 2)*(1-player.armure));
-    return player;
+    player->currentHP -= ((monster->Level * 2)*(1-player->armure));
+
 }
 
 Player updateWeapon(Player *player) {
-    player.currentWeapon.durabilite -= 1;
-    if (player.currentWeapon.durabilite == 0){
+    player->inventaire[player->currentWeapon].durabilite -= 1;
+    if (player->inventaire[player->currentWeapon].durabilite == 0){
         printf("Votre arme n'est plus itilisable ! Veuillez en choisir une autre !\n");
         //on remet l'arme dans l'inventaire
         for (int i = 0; i<10; i++){
-            if (player.inventaire[i].nom == player.currentWeapon.nom)
-                player.inventaire[i] = player.currentWeapon;
+            if (player->inventaire[i].nom == player->inventaire[player->currentWeapon].nom)
+                player->inventaire[i] = player->inventaire[player->currentWeapon];
         }
         //on rappelle chooseWeapon pour attribuer la nouvelle currentWeapon
-        player.currentWeapon = chooseWeapon(&player);
+        player->inventaire[player->currentWeapon] = chooseWeapon(player);
     }
-    return player;
 }
 
 Monstre playerAttack(Player *player, Monstre *monster) {
     //comment se déroule le fight ?
-    monster.HP -= player.currentWeapon.effet;
-    return monster;
+    monster->HP -= player->inventaire[player->currentWeapon].effet;
+}
+
+int usePotion(Player *player) {
+    int cpt=0;
+    printf("Choisiser une potion a utiliser: \n");
+    for (int i = 0; i < 10; i++) {
+        if (strcmp(player->inventaire[i].type, "Soin") == 0 ) {
+            printf("%d : %s soin:%d\n", i, player->inventaire[i].nom,player->inventaire[i].effet);
+            cpt++;
+        }
+    }
+    if(cpt==0){
+        printf("Pas de potion disponible dans l'inventaire!\n");
+        return 0;
+    }else{
+        int soin;
+        scanf(" %d", &soin);
+        printf("Tu as choisis %s \n", player->inventaire[soin].nom);
+        //on demande si l'utilisateur est sûr de son choix, si true alors on continue, si false on refait
+        bool check = confirmation();
+        if (check == false)
+            chooseWeapon(player);
+        else
+        player->currentHP+=player->inventaire[soin].effet;
+        itemClear(&player->inventaire[soin]);
+        if(player->currentHP>player->maxHP){
+            player->currentHP=player->maxHP;
+        }
+        return 1;
+    }
 
 }
 
-Player usePotion(Player *player) {
-    return player;
-}
-
-Player coward(Player *player) {
-    return player;
+int coward(Player *player) {
+    srand(time(0));
+    int i=rand()%100;
+    if(i<30){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
 Player updateXp(Player *player, int xp) {
-    if ((player.currentExperience + xp) > player.maxExperience)
+    if ((player->currentExperience + xp) > player->maxExperience)
     {
-        player = niveauUp(player);
-        player.currentExperience = (player.currentExperience + xp) - player.maxExperience;
+        *player=niveauUp(*player);
+        player->currentExperience = (player->currentExperience + xp) - player->maxExperience;
     }
     else
-        player.currentExperience += xp;
-    return player;
+        player->currentExperience += xp;
+
 }
 
-Player chooseAction(Player *player, Monstre *monster) {
-    printf("Il vous reste %d HP, et %s possede %d HP\n", player.currentHP, monster.nom, monster.HP);
+int chooseAction(Player *player, Monstre *monster) {
+    printf("Il vous reste %d HP, et %s possede %d HP %d \n", player->currentHP, monster->nom, monster->HP,player->currentWeapon);
     int choice = -1;
-    printf("Quelle action voulez-vous effectuer ?\n");
-    printf("1 : Utiliser  une potion \n2 : Attaquer \n3 : Fuir\n");
-    while  (choice < 0 || choice > 3){
-        scanf(" %d",&choice);
-    }
+    do{
+        choice = -1;
+        printf("Quelle action voulez-vous effectuer ?\n");
+        printf("1 : Utiliser une potion \n2 : Attaquer \n3 : Fuir\n");
+        while (choice < 0 || choice > 3) {
+            scanf(" %d", &choice);
+        }
+        if(choice==2&&player->currentWeapon==-1){
+            printf("Vous ne pouvez plus tapper, vous avez plus d'arme valide.\n");
+        }
+    }while(choice==2&&player->currentWeapon==-1);
     //choix de prendre une potion
     if (choice == 1){
-        player = usePotion(player);
-        if (monster.HP > 0)
-            player = monsterAttack(player, monster);
+        usePotion(player);
+        if (monster->HP > 0)
+            monsterAttack(player, monster);
     }
         //choix d'attaquer
     else if (choice == 2){
-        monster = playerAttack(player, monster);
-        player = updateWeapon(player);
-        if (monster.HP > 0) {
-            player = monsterAttack(player, monster);
-        }else{
-            player = updateXp(player, (monster.Level * 2));
+        playerAttack(player, monster);
+        updateWeapon(player);
+        if (monster->HP > 0) {
+            monsterAttack(player, monster);
+        } else {
+            updateXp(player, (monster->Level * 2));
             choice = 0;
         }
     }
-    else if (choice == 3)
-        coward(player);
+    else if (choice == 3) {
+        int val = coward(player);
+        if(val==0){
+            if (monster->HP > 0)
+                monsterAttack(player, monster);
+        }else{
+            return val;
+        }
+    }
+
 
 }
 
@@ -161,14 +214,22 @@ void gameOver() {
     printf("gameOver :(");
 }
 
-void fight(Player *player, Monstre *monster) {
+void fight(Player *player, Monstre monster) {
     printf("C'est l'heure du du du du duel !!\n");
     chooseStuff(player);
-    getPlayer(player);
-    while (player->currentHP > 0 || monster->HP > 0)
-        chooseAction(player, monster);
-    if (player->currentHP <= 0)
+    int fuite=0;
+    while ((player->currentHP > 0 && monster.HP > 0)&&fuite!=1){
+        fuite=chooseAction(player, &monster);
+    }
+    if(monster.HP == 0){
+        monster.temps_reaparition=15;
+    }
+    if (player->currentHP <= 0){
         gameOver();
+    }
+    if(fuite==1){
+        printf("Vous prenez la fuite!\n");
+    }
 }
 
 

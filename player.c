@@ -3,11 +3,13 @@ void getPlayer(Player *p){
     printf("Nom : %s\ncurrentHP : %d\nmaxHP : %d\n"
            "experience : %d\nniveau : %d\narmure : %f\ndegat : %d\ninventaire : ",
            p->Nom,p->currentHP,p->maxHP,
-           p->currentExperience,p->niveau,p->armure,p->currentWeapon.effet);
+           p->currentExperience,p->niveau,p->armure,p->inventaire[p->currentWeapon].effet);
     for(int i=0;i<10;i++){
         printf("%d %s\n",i+1,p->inventaire[i].nom);
     }
 }
+
+
 
 void initPlayer(Player *p,char* nom){
     Item* listItem=getItem();
@@ -17,17 +19,13 @@ void initPlayer(Player *p,char* nom){
     p -> niveau = 1;
     p->currentExperience=0;
     p -> maxExperience = 10;
-    p->currentWeapon=listItem[0];
+    p->currentWeapon=0;
     for (int i=0;i<4;i++) {
         p->inventaire[i] = listItem[i];
     }
-    for (int i=4;i<10;i++) {
-        p->inventaire[i].id =0;
-        p->inventaire[i].nom ="";
-        p->inventaire[i].type ="";
-        p->inventaire[i].durabilite =0;
-        p->inventaire[i].quantite =0;
-        p->inventaire[i].effet =0;
+    p->inventaire[4] = listItem[14];
+    for (int i=5;i<10;i++) {
+        itemClear(&p->inventaire[i]);
     }
 }
 

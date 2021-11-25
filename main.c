@@ -7,7 +7,7 @@
 
 int main() {
     int  ***listMap = listMapGenerator();
-    for (int i=1;i<2;i++) {
+    for (int i=1;i<1;i++) {
         displayMap(listMap[i - 1], i);
         printf("--------------------\n");
     }
@@ -17,7 +17,8 @@ int main() {
     getPlayer(&joueur);
     while(1) {
         displayMap(listMap[0], 1);
-        PlayTurn(listMap[0], 12, 1,&joueur,&listMonstre);
+        printf("--------------------\n");
+        PlayTurn(listMap[0], 12, 1,&joueur,listMonstre);
     }
     return 0;
 }

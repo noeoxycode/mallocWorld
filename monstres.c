@@ -6,7 +6,7 @@ Monstre* getMobBase() {
     Monstre m1;
     m1.id = 12;
     m1.nom = "Tarantula";
-    m1.HP = 10;
+    m1.HP = 5;
     m1.Level = 1;
     m1.temps_reaparition = 0;
     monstre[0]=m1;
@@ -14,7 +14,7 @@ Monstre* getMobBase() {
     Monstre m2;
     m2.id = 15;
     m2.nom = "Araignée vampire";
-    m2.HP = 10;
+    m2.HP = 5;
     m2.Level = 1;
     m2.temps_reaparition = 0;
     monstre[1]=m2;
@@ -22,7 +22,7 @@ Monstre* getMobBase() {
     Monstre m3;
     m3.id = 18;
     m3.nom = "Spiders";
-    m3.HP = 10;
+    m3.HP = 5;
     m3.Level = 1;
     m3.temps_reaparition = 0;
     monstre[2]=m3;
@@ -30,7 +30,7 @@ Monstre* getMobBase() {
     Monstre m4;
     m4.id = 20;
     m4.nom = "Arachnid ";
-    m4.HP = 10;
+    m4.HP = 5;
     m4.Level = 1;
     m4.temps_reaparition = 0;
     monstre[3]=m4;
@@ -38,7 +38,7 @@ Monstre* getMobBase() {
     Monstre m5;
     m5.id = 20;
     m5.nom = "Ice Spiders";
-    m5.HP = 10;
+    m5.HP = 5;
     m5.Level = 1;
     m5.temps_reaparition = 0;
     monstre[4]=m5;
@@ -46,7 +46,7 @@ Monstre* getMobBase() {
     Monstre m6;
     m6.id = 21;
     m6.nom = "le prédateur ";
-    m6.HP = 10;
+    m6.HP = 5;
     m6.Level = 1;
     m6.temps_reaparition = 0;
     monstre[5]=m6;
@@ -54,7 +54,7 @@ Monstre* getMobBase() {
     Monstre m7;
     m7.id = 23;
     m7.nom = "Anacondas";
-    m7.HP = 10;
+    m7.HP = 5;
     m7.Level = 1;
     m7.temps_reaparition = 0;
     monstre[6]=m7;
@@ -62,7 +62,7 @@ Monstre* getMobBase() {
     Monstre m8;
     m8.id = 25;
     m8.nom = "L'Étrange Créature";
-    m8.HP = 10;
+    m8.HP = 5;
     m8.Level = 1;
     m8.temps_reaparition = 0;
     monstre[7]=m8;
@@ -70,7 +70,7 @@ Monstre* getMobBase() {
     Monstre m9;
     m9.id = 26;
     m9.nom = "la créature ";
-    m9.HP = 10;
+    m9.HP = 5;
     m9.Level = 1;
     m9.temps_reaparition = 0;
     monstre[8]=m9;
@@ -78,7 +78,7 @@ Monstre* getMobBase() {
     Monstre m10;
     m10.id = 28;
     m10.nom = "Le Monstre du marécage";
-    m10.HP = 10;
+    m10.HP = 5;
     m10.Level = 1;
     m10.temps_reaparition = 0;
     monstre[9]=m10;

@@ -13,3 +13,11 @@ Item* getItem(){
     }
     return item;
 }
+void itemClear(Item *p){
+    p->id =0;
+    p->nom ="";
+    p->type ="";
+    p->durabilite =0;
+    p->quantite =0;
+    p->effet =0;
+}

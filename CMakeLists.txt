@@ -3,4 +3,4 @@ project(mallocWorld C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(mallocWorld main.c item.c player.c monstres.c map_creator.c test.c fight.c Data_creator.c)
+add_executable(mallocWorld main.c item.c player.c monstres.c map_creator.c  fight.c Data_creator.c)

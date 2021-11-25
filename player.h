@@ -19,7 +19,7 @@ typedef struct Player{
     int maxExperience;
     int niveau;
     float armure;
-    Item currentWeapon;
+    int currentWeapon;
 }Player;
 
 void getPlayer(Player *p);
