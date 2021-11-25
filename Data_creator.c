@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "Data_creator.h"
 char *** creatData(){
     char*** res=malloc(sizeof(char**)*34);
     for(int x=0;x<34;x++){

@@ -4,9 +4,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "fight.c"
-#include "player.c"
-#include "monstres.c"
+#include "player.h"
+#include "fight.h"
+#include "monstres.h"
 
 int *getPlayerPos(int ** map,int size);
 int * getPlayerAround(int **map, int size);
@@ -112,19 +112,24 @@ int **move(int** map,int dir,int size){
     }
     map[pos[0]][pos[1]]=0;
     return map;
-};
+}
 
 
 
-int ** PlayTurn(int **map, int size,int lvl){
-    int *pos= getPlayerPos(map,size);
+int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* *monstreList){
+    int mobCpt=0;
     int *arou= getPlayerAround(map,size);
     int choix=userChoise(arou,lvl);
     printf("%d %d\n",choix,arou[choix-1]);
     if(arou[choix-1]==0){
         map=move(map,choix,size);
     }else if(arou[choix-1]>12){
-        //fight(player,monstre);
+        for (int i=0;i<26;i++){
+            if(monstreList[i]->id==arou[choix-1]){
+                mobCpt=i;
+            }
+        }
+        fight(player,monstreList[mobCpt]);
     }else if(arou[choix-1]==2){
         //pnj()
     }else if(arou[choix-1]<12&&arou[choix-1]>2){

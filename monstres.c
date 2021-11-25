@@ -1,6 +1,6 @@
 #include "monstres.h"
 
-Monstre *getMobBase() {
+Monstre* getMobBase() {
     Monstre* monstre= malloc(sizeof (Monstre)*26);
 
     Monstre m1;

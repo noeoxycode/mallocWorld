@@ -1,8 +1,7 @@
-
 #include "item.h"
 
 Item* getItem(){
-    Item* item = malloc(sizeof(item)*34);;
+    Item* item = malloc(sizeof(item)*34);
     for(int i = 0;i < 34;i++){
         item[i].id = atoi(creatData()[i][0]);
         item[i].nom = creatData()[i][1];

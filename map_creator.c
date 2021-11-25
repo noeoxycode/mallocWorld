@@ -4,16 +4,7 @@
 //
 // Created by noe on 05/11/2021.
 //
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-int ** createMap(int level);
-void displayMap(int **map,int level);
-int *** listMapGenerator();
-int getMapSize(int level);
-int **fillWall(int **map, int mapLevel);
-int **fillItems(int **map, int mapLevel);
-int **fillMob(int **map, int mapLevel);
+#include "map_creator.h"
 
 int getMapSize(int level){
     if(level==1){
@@ -41,7 +32,7 @@ void displayMap(int **map,int level){
     int size=getMapSize(level);
     for(int y=0;y<size;y++){
         for(int x=0;x<size;x++){
-            if(map[x][y]<10 &&map[x][y]!=-1){
+            if(map[x][y]<10 && map[x][y]>=0){
                 printf(" ");
             }
             printf("%d ",map[x][y]);
@@ -63,11 +54,9 @@ int ** createMap(int level){
         }
     }
     map=fillWall(map,level);
-    printf("test 1");
     map=fillItems(map,level);
-    printf("test 2");
     map=fillMob(map,level);
-    printf("test 3");
+    map=fillOther(map,level);
     return map;
 }
 
@@ -152,6 +141,77 @@ int **fillItems(int **map, int mapLevel){
         }
         cpt = 0;
         typeItem++;
+    }
+    return map;
+}
+
+int** fillOther(int **map, int mapLevel){
+    if(mapLevel==1){
+        map= fillOtherMap1(map,mapLevel);
+    }else if(mapLevel==2){
+        map= fillOtherMap2(map,mapLevel);
+    }else if(mapLevel==3){
+        map= fillOtherMap3(map,mapLevel);
+    }
+    return map;
+}
+
+int** fillOtherMap1(int **map, int mapLevel){
+    int x,y,cpt=0;
+    srand(time(0));
+    while(cpt<3) {
+        x = rand() % (getMapSize(mapLevel));
+        y = rand() % (getMapSize(mapLevel));
+        if (map[x][y] == 0) {
+            if(cpt==0) {
+                map[x][y] = 1;
+            }else if(cpt==1) {
+                map[x][y] = -2;
+            }else if(cpt==2) {
+                map[x][y] = 2;
+            }
+            cpt++;
+        }
+    }
+    return map;
+}
+
+int** fillOtherMap2(int **map, int mapLevel){
+    int x,y,cpt=0;
+    srand(time(0));
+    while(cpt<3) {
+        x = rand() % (getMapSize(mapLevel));
+        y = rand() % (getMapSize(mapLevel));
+        if (map[x][y] == 0) {
+            if(cpt==0) {
+                map[x][y] = -2;
+            }else if(cpt==1) {
+                map[x][y] = -3;
+            }else if(cpt==2) {
+                map[x][y] = 2;
+            }
+            cpt++;
+        }
+    }
+    return map;
+}
+
+int** fillOtherMap3(int **map, int mapLevel){
+    int x,y,cpt=0;
+    srand(time(0));
+    while(cpt<3) {
+        x = rand() % (getMapSize(mapLevel));
+        y = rand() % (getMapSize(mapLevel));
+        if (map[x][y] == 0) {
+            if(cpt==0) {
+                map[x][y] = -3;
+            }else if(cpt==1) {
+                //map[x][y] = 99;
+            }else if(cpt==2) {
+                map[x][y] = 2;
+            }
+            cpt++;
+        }
     }
     return map;
 }

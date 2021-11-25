@@ -1,12 +1,13 @@
 #include <stdio.h>
-#include "map_creator.c"
-#include "turn.c"
-#include "player.h"
 #include "item.h"
+#include "player.h"
+#include "monstres.h"
+#include "map_creator.h"
+#include "turn.c"
 
 int main() {
     int  ***listMap = listMapGenerator();
-    for (int i=1;i<4;i++) {
+    for (int i=1;i<2;i++) {
         displayMap(listMap[i - 1], i);
         printf("--------------------\n");
     }
@@ -14,6 +15,9 @@ int main() {
     Player joueur;
     initPlayer(&joueur,"toto");
     getPlayer(&joueur);
-    //PlayTurn(listMap[0],12,1);
+    while(1) {
+        displayMap(listMap[0], 1);
+        PlayTurn(listMap[0], 12, 1,&joueur,&listMonstre);
+    }
     return 0;
 }

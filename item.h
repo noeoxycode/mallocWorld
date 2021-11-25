@@ -6,7 +6,7 @@
 #define MALLOCWORLD_ITEM_H
 #include <stdio.h>
 #include <stdlib.h>
-#include "Data_creator.c"
+#include "Data_creator.h"
 typedef struct Item{
     int id;
     char* nom;
@@ -15,7 +15,6 @@ typedef struct Item{
     int quantite;
     int effet;// degat ou restance d'armure ou soin
 }Item;
-
 Item* getItem();
 
 #endif //MALLOCWORLD_ITEM_H

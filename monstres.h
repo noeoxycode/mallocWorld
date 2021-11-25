@@ -6,6 +6,7 @@
 #define MALLOCWORLD_MONSTRES_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Monstre{
     int id;
