@@ -90,7 +90,7 @@ Player chooseStuff(Player *player) {
 }
 
 Player monsterAttack(Player *player, Monstre *monster) {
-    printf("aie!!!\n");
+    printf("Aie, vous subiser %d de degats.!!!\n",((monster->Level * 2)*(1-player->armure)));
     player->currentHP -= ((monster->Level * 2)*(1-player->armure));
 
 }
@@ -167,7 +167,7 @@ Player updateXp(Player *player, int xp) {
 }
 
 int chooseAction(Player *player, Monstre *monster) {
-    printf("Il vous reste %d HP, et %s possede %d HP %d \n", player->currentHP, monster->nom, monster->HP,player->currentWeapon);
+    printf("Il vous reste %d HP, et %s possede %d HP \n", player->currentHP, monster->nom, monster->HP);
     int choice = -1;
     do{
         choice = -1;
