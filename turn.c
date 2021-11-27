@@ -9,16 +9,18 @@
 #include "monstres.h"
 
 int *getPlayerPos(int ** map,int size);
-int * getPlayerAround(int **map, int size);
+int * getPlayerAround(int **map, int size,Player* player);
 void printChoise(int num,char*dir,int lvl);
 
 int *getPlayerPos(int **map, int size) {
+    printf("in player pos %d %d, ",map[0][0],size);
     int* pos=malloc(sizeof(int)*2);
     for (int y = 0; y < size; y++) {
         for (int x = 0; x < size; x++) {
             if (map[x][y] == 1) {
                 pos[0] = x;
                 pos[1] = y;
+                printf("ici %d %d ",pos[x],pos[y]);
                 return pos;
             }
         }
@@ -58,8 +60,8 @@ void printChoise(int num, char *dir, int lvl) {
     }
 }
 
-int *getPlayerAround(int **map, int size) {
-    int* pos= getPlayerPos(map,size);
+int *getPlayerAround(int **map, int size,Player *player) {
+    int pos[2]={player->position_joueur[1],player->position_joueur[2]};
     int* around=malloc(sizeof(int)*4);
     if(pos[1]!=0){
         around[0]=map[pos[0]][pos[1]-1];
@@ -99,27 +101,26 @@ int userChoise(int* aroun,int lvl){
     return c;
 }
 
-int **move(int** map,int dir,int size){
-    int * pos= getPlayerPos(map,size);
-    if(dir==1){
-        map[pos[0]][pos[1]-1]=1;
-    }else if(dir==2){
-        map[pos[0]+1][pos[1]]=1;
-    }else if(dir==3){
-        map[pos[0]][pos[1]+1]=1;
-    }else if(dir==4){
-        map[pos[0]-1][pos[1]]=1;
+int **move(int** map,int dir,Player* player){
+    map[player->position_joueur[1]][player->position_joueur[1]]=0;
+    if(dir%2==0){
+        player->position_joueur[1]+=(dir-3)*-1;
+    }else{
+        player->position_joueur[1]+=(dir-2);
     }
-    map[pos[0]][pos[1]]=0;
+    map[player->position_joueur[1]][player->position_joueur[1]]=1;
     return map;
 }
 
 
 
 int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* monstreList){
+    printf("\nplay turn ");
     int mobCpt=0;
     int* vaPos= getPlayerPos(map, getMapSize(lvl));
-    int *arou= getPlayerAround(map,size);
+    printf(" get player pos ");
+    int *arou= getPlayerAround(map,size,player);
+    printf("get around ");
     int choix=userChoise(arou,lvl);
     if(choix==1){
         vaPos[1]-=1;
@@ -132,7 +133,7 @@ int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* monstreList)
     }
     printf("%d %d\n",choix,arou[choix-1]);
     if(arou[choix-1]==0){
-        map=move(map,choix,size);
+        map=move(map,choix,player);
     }else if(arou[choix-1]>=12){
         for (int i=0;monstreList[i+1].id!=-1;i++){
             if(monstreList[i].position_x==vaPos[0]&&monstreList[i].position_y==vaPos[1]&&monstreList[i].zone==lvl){
@@ -140,7 +141,7 @@ int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* monstreList)
             }
         }
         if(3!=fight(player,&monstreList[mobCpt])){
-            map = move(map, choix, size);
+            map = move(map, choix, player);
         }
     }else if(arou[choix-1]==2){
         //pnj()

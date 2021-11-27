@@ -16,10 +16,10 @@ int getMapSize(int level){
     }
 }
 
-int *** listMapGenerator(Monstre* listMonstreMap){
-    int **map1= createMap(1,listMonstreMap);
-    int **map2= createMap(2,listMonstreMap);
-    int **map3= createMap(3,listMonstreMap);
+int *** listMapGenerator(Monstre* listMonstreMap,Player *player){
+    int **map1= createMap(1,listMonstreMap,player);
+    int **map2= createMap(2,listMonstreMap,player);
+    int **map3= createMap(3,listMonstreMap,player);
     int ***listMap= malloc(sizeof(int**)*3);
     listMap[0]=map1;
     listMap[1]=map2;
@@ -39,10 +39,11 @@ void displayMap(int **map,int level){
         }
         printf("\n");
     }
+    printf("--------------------\n");
 }
 
 //crée une carte et la retourne
-int ** createMap(int level,Monstre* listMonstreMap){
+int ** createMap(int level,Monstre* listMonstreMap,Player *player){
     int size= getMapSize(level);
     int** map=malloc(sizeof(int*)*size);
     for(int x=0;x<size;x++){
@@ -56,7 +57,7 @@ int ** createMap(int level,Monstre* listMonstreMap){
     map=fillWall(map,level);
     map=fillItems(map,level);
     map=fillMob(map,level,listMonstreMap);
-    map=fillOther(map,level);
+    map=fillOther(map,level,player);
     return map;
 }
 
@@ -158,9 +159,9 @@ int **fillItems(int **map, int mapLevel){
     return map;
 }
 
-int** fillOther(int **map, int mapLevel){
+int** fillOther(int **map, int mapLevel,Player *player){
     if(mapLevel==1){
-        map= fillOtherMap1(map,mapLevel);
+        map= fillOtherMap1(map,mapLevel,player);
     }else if(mapLevel==2){
         map= fillOtherMap2(map,mapLevel);
     }else if(mapLevel==3){
@@ -169,7 +170,7 @@ int** fillOther(int **map, int mapLevel){
     return map;
 }
 
-int** fillOtherMap1(int **map, int mapLevel){
+int** fillOtherMap1(int **map, int mapLevel,Player *player){
     int x,y,cpt=0;
     srand(time(0));
     while(cpt<3) {
@@ -178,6 +179,9 @@ int** fillOtherMap1(int **map, int mapLevel){
         if (map[x][y] == 0) {
             if(cpt==0) {
                 map[x][y] = 1;
+                player->position_joueur[0]=1;
+                player->position_joueur[1]=x;
+                player->position_joueur[2]=y;
             }else if(cpt==1) {
                 map[x][y] = -2;
             }else if(cpt==2) {

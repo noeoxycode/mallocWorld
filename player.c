@@ -12,9 +12,7 @@ void getPlayer(Player *p){
 
 
 void initPlayer(Player *p,char* nom){
-    printf("\ntoto");
     Item* listItem=getItem();
-    printf("toto");
     p -> Nom = nom;
     p -> currentHP = 100;
     p -> maxHP = 100;
@@ -22,12 +20,11 @@ void initPlayer(Player *p,char* nom){
     p->currentExperience=0;
     p -> maxExperience = 10;
     p->currentWeapon=0;
+    p->armure=0;
     for (int i=0;i<4;i++) {
         p->inventaire[i] = listItem[i];
     }
-    p->inventaire[4] = listItem[14];
-    p->inventaire[5] = listItem[10];
-    for (int i=6;i<10;i++) {
+    for (int i=4;i<10;i++) {
         itemClear(&p->inventaire[i]);
     }
 }
