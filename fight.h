@@ -22,7 +22,7 @@ int coward (Player *player);
 Player updateXp(Player *player, int xp);
 int chooseAction (Player *player, Monstre *monster);
 void gameOver();
-void fight (Player *player, Monstre monster);
+int fight (Player *player, Monstre *monster);
 Player chooseStuff (Player *player);
 
 #endif //MALLOCWORLD_FIGHT_H

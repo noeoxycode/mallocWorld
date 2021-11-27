@@ -16,10 +16,10 @@ int getMapSize(int level){
     }
 }
 
-int *** listMapGenerator(){
-    int **map1= createMap(1);
-    int **map2= createMap(2);
-    int **map3= createMap(3);
+int *** listMapGenerator(Monstre* listMonstreMap){
+    int **map1= createMap(1,listMonstreMap);
+    int **map2= createMap(2,listMonstreMap);
+    int **map3= createMap(3,listMonstreMap);
     int ***listMap= malloc(sizeof(int**)*3);
     listMap[0]=map1;
     listMap[1]=map2;
@@ -42,7 +42,7 @@ void displayMap(int **map,int level){
 }
 
 //crée une carte et la retourne
-int ** createMap(int level){
+int ** createMap(int level,Monstre* listMonstreMap){
     int size= getMapSize(level);
     int** map=malloc(sizeof(int*)*size);
     for(int x=0;x<size;x++){
@@ -55,7 +55,7 @@ int ** createMap(int level){
     }
     map=fillWall(map,level);
     map=fillItems(map,level);
-    map=fillMob(map,level);
+    map=fillMob(map,level,listMonstreMap);
     map=fillOther(map,level);
     return map;
 }
@@ -87,8 +87,9 @@ int **fillWall(int **map, int mapLevel){
 }
 
 //remplis la map avec les mob
-int **fillMob(int **map, int mapLevel){
+int **fillMob(int **map, int mapLevel,Monstre* listMonstreMap){
     //determine le nb de mob
+    Monstre* monstreBase=getMobBase();
     int nbMob = 0;
     if (mapLevel == 1)
         nbMob = 10;
@@ -99,17 +100,29 @@ int **fillMob(int **map, int mapLevel){
     else
         nbMob = -1;
 
-    int i = 0;
+    int i = 0,b=0,c=0;
+    while(listMonstreMap[c].id!=-1){
+        c++;
+    }
     srand(time(0));
     int randomMonster=0,x=0,y=0;
     while (i < nbMob)
     {
-        randomMonster = ( rand() % 15 ) + 12;
+        randomMonster = ( rand() % 25 ) + 12;
         x = rand()% (getMapSize(mapLevel));
         y = rand()% (getMapSize(mapLevel));
         if (map[x][y] == 0 /*&& monstres[randomMonster].lvlvalue == mapLevel*/)
         {
             map[x][y] = randomMonster;
+            while(monstreBase[b].id!=randomMonster&&b<100){
+                b++;
+            }
+            listMonstreMap[i+c]=monstreBase[b];
+            listMonstreMap[c+i].position_x=x;
+            listMonstreMap[c+i].position_y=y;
+            listMonstreMap[c+i].zone=mapLevel;
+            listMonstreMap[c+i+1].id=-1;
+            b=0;
             i++;
         }
     }

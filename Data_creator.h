@@ -6,6 +6,7 @@
 #define MALLOCWORLD_DATA_CREATOR_H
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 char *** creatData();
 char *** maps();
 

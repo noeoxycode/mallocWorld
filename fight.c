@@ -38,7 +38,7 @@ int chooseArmor(Player *player) {
         scanf(" %d", &armure);
         printf("Tu as choisis %s\n", player->inventaire[armure].nom);
         bool check = confirmation();
-        if (check == false)
+        if (check == false||strcmp(player->inventaire[armure].type,"Armure")!=0)
             chooseArmor(player);
         else
             player->armure=player->inventaire[armure].effet/100;
@@ -71,7 +71,7 @@ Item chooseWeapon(Player *player) {
         printf("Tu as choisis %s \n", player->inventaire[arme].nom);
         //on demande si l'utilisateur est sûr de son choix, si true alors on continue, si false on refait
         bool check = confirmation();
-        if (check == false)
+        if (check == false||strcmp(player->inventaire[arme].type,"Arme")!=0)
             chooseWeapon(player);
         else
             player->inventaire[player->currentWeapon] = player->inventaire[arme];
@@ -90,7 +90,8 @@ Player chooseStuff(Player *player) {
 }
 
 Player monsterAttack(Player *player, Monstre *monster) {
-    printf("Aie, vous subiser %d de degats.!!!\n",((monster->Level * 2)*(1-player->armure)));
+    int degat=((monster->Level * 2)*(1-player->armure));
+    printf("Aie, vous subiser %d de degats.!!!\n",degat);
     player->currentHP -= ((monster->Level * 2)*(1-player->armure));
 
 }
@@ -214,21 +215,23 @@ void gameOver() {
     printf("gameOver :(");
 }
 
-void fight(Player *player, Monstre monster) {
+int fight(Player *player, Monstre* monster) {
     printf("C'est l'heure du du du du duel !!\n");
     chooseStuff(player);
     int fuite=0;
-    while ((player->currentHP > 0 && monster.HP > 0)&&fuite!=1){
-        fuite=chooseAction(player, &monster);
+    while ((player->currentHP > 0 && monster->HP > 0)&&fuite!=1){
+        fuite=chooseAction(player, monster);
     }
-    if(monster.HP == 0){
-        monster.temps_reaparition=15;
+    if(monster->HP == 0){
+        monster->temps_reaparition=15;
+        printf("Bravo vous avez vaincu %s, et vous gagner %d xp\n",monster->nom,monster->Level*2);
     }
     if (player->currentHP <= 0){
         gameOver();
     }
     if(fuite==1){
         printf("Vous prenez la fuite!\n");
+        return 3;
     }
 }
 

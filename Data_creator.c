@@ -44,7 +44,7 @@ char *** creatData(){
     };
     for(int x=0;x<34;x++){
         for(int y=0;y<6;y++) {
-            res[x][y]=data[x][y];
+            strcpy(res[x][y],data[x][y]);
         }
     }
     return res;

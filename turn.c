@@ -118,23 +118,48 @@ int **move(int** map,int dir,int size){
 
 int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* monstreList){
     int mobCpt=0;
+    int* vaPos= getPlayerPos(map, getMapSize(lvl));
     int *arou= getPlayerAround(map,size);
     int choix=userChoise(arou,lvl);
+    if(choix==1){
+        vaPos[1]-=1;
+    }else if(choix==2){
+        vaPos[0]+=1;
+    }else if(choix==3){
+        vaPos[1]+=1;
+    }else if(choix==4){
+        vaPos[0]-=1;
+    }
     printf("%d %d\n",choix,arou[choix-1]);
     if(arou[choix-1]==0){
         map=move(map,choix,size);
     }else if(arou[choix-1]>=12){
-        for (int i=0;i<26;i++){
-            if(monstreList[i].id==arou[choix-1]){
+        for (int i=0;monstreList[i+1].id!=-1;i++){
+            if(monstreList[i].position_x==vaPos[0]&&monstreList[i].position_y==vaPos[1]&&monstreList[i].zone==lvl){
                 mobCpt=i;
             }
         }
-        fight(player,monstreList[mobCpt]);
-        map=move(map,choix,size);
+        if(3!=fight(player,&monstreList[mobCpt])){
+            map = move(map, choix, size);
+        }
     }else if(arou[choix-1]==2){
         //pnj()
     }else if(arou[choix-1]<12&&arou[choix-1]>2){
         //recolte()
     }
     return map;
+}
+void checkRespawn(Monstre* listMob,int** map,int lvl){
+    for(int i=0;listMob[i].id!=-1;i++){
+        printf("%d\n",listMob[i].temps_reaparition);
+        if(listMob[i].temps_reaparition!=0){
+            listMob[i].temps_reaparition-=1;
+        }else {
+            if (lvl == listMob[i].zone) {
+                if (map[listMob[i].position_x][listMob[i].position_y] == 0) {
+                    map[listMob[i].position_x][listMob[i].position_y] = listMob[i].id;
+                }
+            }
+        }
+    }
 }
