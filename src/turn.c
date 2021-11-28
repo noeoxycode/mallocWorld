@@ -103,7 +103,7 @@ int userChoise(int* aroun,int lvl){
     return c;
 }
 
-int **move(int** map,int dir,Player* player) {
+int **move(int** map,int dir,Player* player) {  //change la position du joueur sur la carte en 0 puis prend la future destination du joueur et ecrit 1 sur la carte
     map[player->position_joueur[1]][player->position_joueur[2]] = 0;
     if (dir % 2 == 0) {
         player->position_joueur[1] += (dir - 3) * -1;
@@ -166,7 +166,7 @@ int option(int **map, int size,int* lvl,Player *player,Monstre* monstreList,ress
     }
 }
 
-int PlayTurn(int ***map, int size,int* lvl,Player *player,Monstre* monstreList,ressource* ressourceList){
+int PlayTurn(int ***map, int size,int* lvl,Player *player,Monstre* monstreList,ressource* ressourceList){// permet de prendre toute les option autour du joueur pour lui proposer le choix et lancer les action en consequence: combatre/se deplacer/recolter une ressource/ prendre les portail/aller dans les options.
     int mobCpt=0,res=0;
     int oldLevel=*lvl;
     int vaPos[]={player->position_joueur[1], player->position_joueur[2]};
@@ -185,7 +185,6 @@ int PlayTurn(int ***map, int size,int* lvl,Player *player,Monstre* monstreList,r
         res=option(*map,size, lvl,player,monstreList, ressourceList);
     }
     if(res==0) {
-        printf("%d %d\n", choix, arou[choix - 1]);
         if (res == 0) {
             if (arou[choix - 1] == -2 || arou[choix - 1] == -3) {
                 if (arou[choix - 1] == -2 && player->niveau > 2) {
