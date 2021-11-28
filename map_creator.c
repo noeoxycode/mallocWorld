@@ -111,20 +111,20 @@ int **fillMob(int **map, int mapLevel,Monstre* listMonstreMap){
         randomMonster = ( rand() % 25 ) + 12;
         x = rand()% (getMapSize(mapLevel));
         y = rand()% (getMapSize(mapLevel));
-        if (map[x][y] == 0 /*&& monstres[randomMonster].lvlvalue == mapLevel*/)
-        {
-            map[x][y] = randomMonster;
-            while(monstreBase[b].id!=randomMonster&&b<100){
+            while(monstreBase[b].id!=randomMonster){
                 b++;
             }
+        if (map[x][y] == 0 && monstreBase[b].Level == mapLevel)
+        {
+            map[x][y] = randomMonster;
             listMonstreMap[i+c]=monstreBase[b];
             listMonstreMap[c+i].position_x=x;
             listMonstreMap[c+i].position_y=y;
             listMonstreMap[c+i].zone=mapLevel;
             listMonstreMap[c+i+1].id=-1;
-            b=0;
             i++;
         }
+        b=0;
     }
     return map;
 }
