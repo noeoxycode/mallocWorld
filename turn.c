@@ -6,13 +6,14 @@
 #include <stdio.h>
 #include "player.h"
 #include "fight.h"
+#include "recolte.h"
 #include "monstres.h"
 
 int *getPlayerPos(int ** map,int size);
 int * getPlayerAround(int **map, int size,Player* player);
 void printChoise(int num,char*dir,int lvl);
 
-int *getPlayerPos(int **map, int size) {
+int *getPlayerPos(int ** map,int size){
     printf("in player pos %d %d, ",map[0][0],size);
     int* pos=malloc(sizeof(int)*2);
     for (int y = 0; y < size; y++) {
@@ -20,7 +21,6 @@ int *getPlayerPos(int **map, int size) {
             if (map[x][y] == 1) {
                 pos[0] = x;
                 pos[1] = y;
-                printf("ici %d %d ",pos[x],pos[y]);
                 return pos;
             }
         }
@@ -31,6 +31,9 @@ int *getPlayerPos(int **map, int size) {
 }
 
 void printChoise(int num, char *dir, int lvl) {
+    Monstre* listMobBasse=getMobBase();
+    ressource *ressourceBase=getRessourceBase();
+    int a=0;
     if(num==-5){
         printf("Deplacement impossible, bordure vers %s\n",dir);
     }else if(num==-3){
@@ -54,9 +57,11 @@ void printChoise(int num, char *dir, int lvl) {
     }else if(num==2) {
         printf("Interagire avec le pnj\n");
     }else if(num>2&&num<12) {
-        printf("Recolte de la ressource: %d\n",num);
+        while(ressourceBase[a].idMap!=num)a++;
+        printf("Recolte de la ressource: %s\n",ressourceBase[a].nom);
     }else if(num>11) {
-        printf("Affronter le monstre: %d\n",num);
+        while(listMobBasse[a].id!=num)a++;
+        printf("Affronter le monstre: %s\n",listMobBasse[a].nom);
     }
 }
 
@@ -101,26 +106,22 @@ int userChoise(int* aroun,int lvl){
     return c;
 }
 
-int **move(int** map,int dir,Player* player){
-    map[player->position_joueur[1]][player->position_joueur[1]]=0;
-    if(dir%2==0){
-        player->position_joueur[1]+=(dir-3)*-1;
-    }else{
-        player->position_joueur[1]+=(dir-2);
+int **move(int** map,int dir,Player* player) {
+    map[player->position_joueur[1]][player->position_joueur[2]] = 0;
+    if (dir % 2 == 0) {
+        player->position_joueur[1] += (dir - 3) * -1;
+    } else {
+        player->position_joueur[2] += (dir - 2);
     }
-    map[player->position_joueur[1]][player->position_joueur[1]]=1;
+    map[player->position_joueur[1]][player->position_joueur[2]] = 1;
     return map;
 }
 
 
-
-int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* monstreList){
-    printf("\nplay turn ");
+int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* monstreList,ressource* ressourceList){
     int mobCpt=0;
-    int* vaPos= getPlayerPos(map, getMapSize(lvl));
-    printf(" get player pos ");
+    int vaPos[]={player->position_joueur[1], player->position_joueur[2]};
     int *arou= getPlayerAround(map,size,player);
-    printf("get around ");
     int choix=userChoise(arou,lvl);
     if(choix==1){
         vaPos[1]-=1;
@@ -140,19 +141,23 @@ int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* monstreList)
                 mobCpt=i;
             }
         }
-        if(3!=fight(player,&monstreList[mobCpt])){
-            map = move(map, choix, player);
-        }
+        if(3!=fight(player,&monstreList[mobCpt]))map = move(map, choix, player);
     }else if(arou[choix-1]==2){
         //pnj()
     }else if(arou[choix-1]<12&&arou[choix-1]>2){
+        for (int i=0;monstreList[i+1].id!=-1;i++){
+            if(ressourceList[i].pos_x==vaPos[0]&&ressourceList[i].pos_y==vaPos[1]&&ressourceList[i].lvl==lvl){
+                mobCpt=i;
+                printf("\n attention : %d %d %d",ressourceList[i].pos_x,ressourceList[i].pos_y,ressourceList[i].lvl);
+            }
+        }
+        if(3!=recoltea(player,&ressourceList[mobCpt]))map = move(map, choix, player);
         //recolte()
     }
     return map;
 }
 void checkRespawn(Monstre* listMob,int** map,int lvl){
     for(int i=0;listMob[i].id!=-1;i++){
-        printf("%d\n",listMob[i].temps_reaparition);
         if(listMob[i].temps_reaparition!=0){
             listMob[i].temps_reaparition-=1;
         }else {
