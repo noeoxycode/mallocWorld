@@ -5,7 +5,7 @@ typedef struct Player{
     int currentHP;
     int maxHP;
     int* position_joueur;// [nbMap, x , y]
-    char** inventaire[10][];
+    //char** inventaire[10][];
     int currentExperience;
     int maxExperience;
     int niveau;
@@ -19,7 +19,7 @@ void getPlayer(Player *p){
            p->Nom,p->currentHP,p->maxHP,
            p->currentExperience,p->niveau,p->armure,p->degat);
     for(int i=0;i<10;i++){
-        printf("%s \n",p->inventaire[i]);
+        //printf("%s \n",p->inventaire[i]);
     }
 }
 
