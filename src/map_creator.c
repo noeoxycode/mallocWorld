@@ -57,7 +57,7 @@ int ** createMap(int level,Monstre* listMonstreMap,ressource* listRessourceMap,P
     map=fillWall(map,level);
     map=fillItems(map,level,listRessourceMap);
     map=fillMob(map,level,listMonstreMap);
-    map=fillOther(map,level,player);
+    map=fillOther(map,level,player,listRessourceMap);
     return map;
 }
 
@@ -170,19 +170,19 @@ int **fillItems(int **map, int mapLevel,ressource* listRessourceMap){
     return map;
 }
 
-int** fillOther(int **map, int mapLevel,Player *player){
+int** fillOther(int **map, int mapLevel,Player *player,ressource* listRessourceMap){
     if(mapLevel==1){
-        map= fillOtherMap1(map,mapLevel,player);
+        map= fillOtherMap1(map,mapLevel,player,listRessourceMap);
     }else if(mapLevel==2){
-        map= fillOtherMap2(map,mapLevel);
+        map= fillOtherMap2(map,mapLevel,listRessourceMap);
     }else if(mapLevel==3){
-        map= fillOtherMap3(map,mapLevel);
+        map= fillOtherMap3(map,mapLevel,listRessourceMap);
     }
     return map;
 }
 
-int** fillOtherMap1(int **map, int mapLevel,Player *player){
-    int x,y,cpt=0;
+int** fillOtherMap1(int **map, int mapLevel,Player *player,ressource* listRessourceMap){
+    int x,y,cpt=0,o=0;
     srand(time(0));
     while(cpt<3) {
         x = rand() % (getMapSize(mapLevel));
@@ -195,6 +195,13 @@ int** fillOtherMap1(int **map, int mapLevel,Player *player){
                 player->position_joueur[2]=y;
             }else if(cpt==1) {
                 map[x][y] = -2;
+                while(listRessourceMap[o].id!=-1)o++;
+                listRessourceMap[o].id=-2;
+                listRessourceMap[o].idMap=-2;
+                listRessourceMap[o].pos_x=x;
+                listRessourceMap[o].pos_y=y;
+                listRessourceMap[o].lvl=1;
+                listRessourceMap[o+1].id =-1;
             }else if(cpt==2) {
                 map[x][y] = 2;
             }
@@ -204,17 +211,32 @@ int** fillOtherMap1(int **map, int mapLevel,Player *player){
     return map;
 }
 
-int** fillOtherMap2(int **map, int mapLevel){
-    int x,y,cpt=0;
+int** fillOtherMap2(int **map, int mapLevel,ressource* listRessourceMap){
+    int x,y,cpt=0,o;
     srand(time(0));
     while(cpt<3) {
+        o=0;
         x = rand() % (getMapSize(mapLevel));
         y = rand() % (getMapSize(mapLevel));
         if (map[x][y] == 0) {
             if(cpt==0) {
                 map[x][y] = -2;
+                while(listRessourceMap[o].id!=-1)o++;
+                listRessourceMap[o].id=-2;
+                listRessourceMap[o].idMap=-2;
+                listRessourceMap[o].pos_x=x;
+                listRessourceMap[o].pos_y=y;
+                listRessourceMap[o].lvl=mapLevel;
+                listRessourceMap[o+1].id =-1;
             }else if(cpt==1) {
                 map[x][y] = -3;
+                while(listRessourceMap[o].id!=-1)o++;
+                listRessourceMap[o].id=-3;
+                listRessourceMap[o].idMap=-3;
+                listRessourceMap[o].pos_x=x;
+                listRessourceMap[o].pos_y=y;
+                listRessourceMap[o].lvl=mapLevel;
+                listRessourceMap[o+1].id =-1;
             }else if(cpt==2) {
                 map[x][y] = 2;
             }
@@ -224,18 +246,24 @@ int** fillOtherMap2(int **map, int mapLevel){
     return map;
 }
 
-int** fillOtherMap3(int **map, int mapLevel){
-    int x,y,cpt=0;
+int** fillOtherMap3(int **map, int mapLevel,ressource* listRessourceMap){
+    int x,y,cpt=0,o;
     srand(time(0));
-    while(cpt<3) {
+    while(cpt<2) {
+        o=0;
         x = rand() % (getMapSize(mapLevel));
         y = rand() % (getMapSize(mapLevel));
         if (map[x][y] == 0) {
             if(cpt==0) {
                 map[x][y] = -3;
+                while(listRessourceMap[o].id!=-1)o++;
+                listRessourceMap[o].id=-2;
+                listRessourceMap[o].idMap=-2;
+                listRessourceMap[o].pos_x=x;
+                listRessourceMap[o].pos_y=y;
+                listRessourceMap[o].lvl=mapLevel;
+                listRessourceMap[o+1].id =-1;
             }else if(cpt==1) {
-                //map[x][y] = 99;
-            }else if(cpt==2) {
                 map[x][y] = 2;
             }
             cpt++;

@@ -16,19 +16,23 @@ int main() {
     int  ***listMap = listMapGenerator(listMonstreMap,listItemMap,&joueur);
     printf("tot");
     for(int i=0;listItemMap[i].id!=-1;i++){
-        //printf("%d %s %s %d %d %d\n",listItemMap[i].id,listItemMap[i].nom,listItemMap[i].type,listItemMap[i].pos_x,listItemMap[i].pos_y,listItemMap[i].resistance);
+        printf("%d %s %s %d %d %d\n",listItemMap[i].id,listItemMap[i].nom,listItemMap[i].type,listItemMap[i].pos_x,listItemMap[i].pos_y,listItemMap[i].resistance);
     }
     for (int i=1;i<2;i++) {
         displayMap(listMap[i - 1], i);
     }
     Monstre* listMonstre=getMobBase();
     getPlayer(&joueur);
-    while(1) {
-        displayMap(listMap[0], 1);
-        printf("toto");
-        PlayTurn(listMap[0], 12, 1,&joueur,listMonstreMap,listItemMap);
-        checkMobRespawn(listMonstreMap,listMap[0],1);
-        checkOtherRespawn(listItemMap,listMap[0],1);
+    int level=1,old=1,res=0;
+    while(res!=10) {
+        checkMobRespawn(listMonstreMap,listMap[level-1],level);
+        checkOtherRespawn(listItemMap,listMap[level-1],level);
+        displayMap(listMap[level-1], level);
+        res=PlayTurn(&listMap[level-1], getMapSize(level), &level,&joueur,listMonstreMap,listItemMap);
+        if(res==6){
+            //WriteInFile(listMap,&joueur);
+        }
+        listMap[level-1][joueur.position_joueur[1]][joueur.position_joueur[2]]=1;
 
     }
     return 0;

@@ -1,9 +1,9 @@
 #include "../header/player.h"
 void getPlayer(Player *p){
     printf("Nom : %s\ncurrentHP : %d\nmaxHP : %d\n"
-           "experience : %d\nniveau : %d\narmure : %f\ndegat : %d\ninventaire : ",
+           "experience : %d\nniveau : %d\ninventaire : ",
            p->Nom,p->currentHP,p->maxHP,
-           p->currentExperience,p->niveau,p->armure,p->inventaire[p->currentWeapon].effet);
+           p->currentExperience,p->niveau);
     for(int i=0;i<10;i++){
         printf("%d %s\n",i+1,p->inventaire[i].nom);
     }

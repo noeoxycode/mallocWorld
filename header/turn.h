@@ -12,7 +12,9 @@ int * getPlayerAround(int **map, int size,Player* player);
 void printChoise(int num,char*dir,int lvl);
 int userChoise(int* aroun,int lvl);
 int **move(int** map,int dir,Player* player);
-int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* monstreList,ressource* ressourceList);
+int PlayTurn(int ***map, int size,int* lvl,Player *player,Monstre* monstreList,ressource* ressourceList);
 void checkMobRespawn(Monstre* listMob,int** map,int lvl);
 void checkOtherRespawn(ressource * listOther,int** map,int lvl);
+int **changeMap(int** map,int mapCase,Monstre* monstreList,ressource* ressourceList,Player *players,int* lvl);
+int option(int **map, int size,int* lvl,Player *player,Monstre* monstreList,ressource* ressourceList);
 #endif //MALLOCWORLD_TURN_H

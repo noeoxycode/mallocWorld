@@ -20,10 +20,10 @@ int getMapSize(int level);
 int **fillWall(int **map, int mapLevel);
 int **fillItems(int **map, int mapLevel,ressource* listRessourceMap);
 int **fillMob(int **map, int mapLevel,Monstre* listMonstreMap);
-int **fillOther(int **map, int mapLevel,Player *player);
-int** fillOtherMap1(int **map, int mapLevel,Player *player);
-int** fillOtherMap2(int **map, int mapLevel);
-int** fillOtherMap3(int **map, int mapLevel);
+int **fillOther(int **map, int mapLevel,Player *player,ressource* listRessourceMap);
+int** fillOtherMap1(int **map, int mapLevel,Player *player,ressource* listRessourceMap);
+int** fillOtherMap2(int **map, int mapLevel,ressource* listRessourceMap);
+int** fillOtherMap3(int **map, int mapLevel,ressource* listRessourceMap);
 
 
 #endif //MALLOCWORLD_MAP_CREATOR_H
