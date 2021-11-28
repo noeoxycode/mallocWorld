@@ -2,7 +2,7 @@
 #include "save.h"
 #include <string.h>
 //save le map
-int writeMapInFile(int*** map){
+int writeInFile(int*** map,Player *p){
     printf("Choisissez un nom que vous voulez donner à votre fichier : ");
     char name[50];
     scanf(" %s", name);
@@ -13,42 +13,47 @@ int writeMapInFile(int*** map){
     path = strcat(path, name);
     path = strcat(path, filetype);
     printf("%s" ,path);
+    writeMap(*** map, path);
+    //writePlayer(p,f);
+    return 0;
+}
+
+
+int writeMap(int*** map, char* path){
     FILE* f = fopen(path, "w");
-    if(f == NULL){
-        return 0;
-    }
-    fprintf(f,"=== MAP ===\n");
-    for(int level = 1;level < 4;level++) {
-        fprintf(f,"-- ZONE %d--\n",level);
-        for (int i = 0; i < getMapSize(level);
-        i++) {
-            for (int j = 0; j < getMapSize(level);
-            j++) {
-                fprintf(f, "%d ", map[level-1][i][j]);
+    if(f != NULL) {
+        fprintf(f, "=== MAP ===\n");
+        for (int level = 1; level < 4; level++) {
+            fprintf(f, "-- ZONE %d--\n", level);
+            for (int i = 0; i < getMapSize(level);
+                 i++) {
+                for (int j = 0; j < getMapSize(level);
+                     j++) {
+                    fprintf(f, "%d ", map[level - 1][i][j]);
+                }
+                fprintf(f, "\n");
             }
-            fprintf(f, "\n");
+        }
+        fclose(f);
+    }
+    return 0;
+}
+
+void writePlayer(Player *p, char* path){
+    FILE* f = fopen(path, "w");
+    if(f != NULL) {
+        fprintf(f, "=== PLAYER ===\n");
+        fprintf(f, "%d \n", p->niveau);
+        fprintf(f, "%d/%d \n", p->currentExperience, p->maxExperience);
+        fprintf(f, "%d/%d \n", p->currentHP, p->maxHP);
+        fprintf(f, "--INVENTORY-- \n");
+        for (int i = 0; i < 10; i++) {
+            fprintf(f, "%d@%s@%d \n", p->inventaire[i].quantiter, p->inventaire[i].nom, p->inventaire[i].durabilite);
         }
     }
     fclose(f);
-    return 0;
 }
-//save le player
-int writePlayerInFile(Player *p){
-    FILE* f = fopen("save.txt", "w");
-    if(f == NULL){
-        return 0;
-    }
-    fprintf(f,"=== PLAYER ===\n");
-    fprintf(f,"%d \n",p->niveau);
-    fprintf(f,"%d/%d \n",p->currentExperience,p->maxExperience);
-    fprintf(f,"%d/%d \n",p->currentHP,p->maxHP);
-    fprintf(f,"--INVENTORY-- \n");
-    for(int i = 0;i < 10;i++){
-        //fprintf(f,"%d@%s@%d \n",p->inventaire[i].quantite,p->inventaire[i].nom,p->inventaire[i].durabilite);
-    }
-    fclose(f);
-    return 1;
-}
+/*
 
 void afficherMap(int*** map){
     for(int level = 1;level < 4;level++) {
@@ -102,7 +107,6 @@ int** readFile(){
             stringTok = strtok(NULL, " ");
             counterInt += 1;
         }
-
         writeInMapRead(mapRead, saveInteger, row);
         row += 1;
     }
