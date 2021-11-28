@@ -1,5 +1,5 @@
 //
-// Created by Jeune on 28/11/2021.
+// Created by Velolime on 28/11/2021.
 //
 
 #ifndef MALLOCWORLD_RESSOURCE_H
