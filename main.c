@@ -1,39 +1,30 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "item.h"
 #include "player.h"
 #include "monstres.h"
 #include "map_creator.h"
+#include "ressource.h"
 #include "turn.c"
 
 int main() {
     Player joueur;
-    printf("toto ");
     initPlayer(&joueur,"toto");
-    printf("toto ");
     Monstre* listMonstreMap=malloc(sizeof (Monstre)*100);
-    printf("a ");
     listMonstreMap[0].id=-1;
-    Item * listItemMap=malloc(sizeof (Item)*100);
+    ressource * listItemMap=malloc(sizeof (ressource)*100);
     listItemMap[0].id=-1;
-
-    printf("toto ");
-    int  ***listMap = listMapGenerator(listMonstreMap,&joueur);
-    for(int i=0;listMonstreMap[i].id!=-1;i++){
-        printf("%d %d\n",listMonstreMap[i].id,listMonstreMap[i].zone);
+    int  ***listMap = listMapGenerator(listMonstreMap,listItemMap,&joueur);
+    for(int i=0;listItemMap[i].id!=-1;i++){
+        //printf("%d %s %s %d %d %d\n",listItemMap[i].id,listItemMap[i].nom,listItemMap[i].type,listItemMap[i].pos_x,listItemMap[i].pos_y,listItemMap[i].resistance);
     }
-    printf("toto ");
     for (int i=1;i<2;i++) {
         displayMap(listMap[i - 1], i);
     }
     Monstre* listMonstre=getMobBase();
-    printf("a ");
-    printf("a ");
     getPlayer(&joueur);
-    printf("a \n");
     while(1) {
         displayMap(listMap[0], 1);
-        PlayTurn(listMap[0], 12, 1,&joueur,listMonstreMap);
+        PlayTurn(listMap[0], 12, 1,&joueur,listMonstreMap,listItemMap);
         checkRespawn(listMonstreMap,listMap[0],1);
 
     }

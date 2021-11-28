@@ -14,7 +14,7 @@ int recoltea(Player *player, ressource *matiere) {
     for(int i=0;i<10;i++){
         printf("%d %s %d %d\n",i,player->inventaire[i].nom,player->inventaire[i].quantite,player->inventaire[i].durabilite);
     }
-    matiere->tmp_reaparition=
+    matiere->tmp_reaparition=10;
     return 1;
 
 }

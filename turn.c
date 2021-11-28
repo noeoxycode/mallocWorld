@@ -145,10 +145,9 @@ int ** PlayTurn(int **map, int size,int lvl,Player *player,Monstre* monstreList,
     }else if(arou[choix-1]==2){
         //pnj()
     }else if(arou[choix-1]<12&&arou[choix-1]>2){
-        for (int i=0;monstreList[i+1].id!=-1;i++){
+        for (int i=0;ressourceList[i+1].id!=-1;i++){
             if(ressourceList[i].pos_x==vaPos[0]&&ressourceList[i].pos_y==vaPos[1]&&ressourceList[i].lvl==lvl){
                 mobCpt=i;
-                printf("\n attention : %d %d %d",ressourceList[i].pos_x,ressourceList[i].pos_y,ressourceList[i].lvl);
             }
         }
         if(3!=recoltea(player,&ressourceList[mobCpt]))map = move(map, choix, player);

@@ -1,7 +1,7 @@
 #include "player.h"
 void getPlayer(Player *p){
     printf("Nom : %s\ncurrentHP : %d\nmaxHP : %d\n"
-           "experience : %d\nniveau : %d\narmure : %f\ndegat : %d\ninventaire : ",
+           "experience : %d\nniveau : %d\narmure : %f\ndegat : %d\ninventaire : \n",
            p->Nom,p->currentHP,p->maxHP,
            p->currentExperience,p->niveau,p->armure,p->inventaire[p->currentWeapon].effet);
     for(int i=0;i<10;i++){
@@ -12,7 +12,9 @@ void getPlayer(Player *p){
 
 
 void initPlayer(Player *p,char* nom){
+    printf("\ntoto");
     Item* listItem=getItem();
+    printf("toto");
     p -> Nom = nom;
     p -> currentHP = 100;
     p -> maxHP = 100;

@@ -16,10 +16,10 @@ int getMapSize(int level){
     }
 }
 
-int *** listMapGenerator(Monstre* listMonstreMap,Player *player){
-    int **map1= createMap(1,listMonstreMap,player);
-    int **map2= createMap(2,listMonstreMap,player);
-    int **map3= createMap(3,listMonstreMap,player);
+int *** listMapGenerator(Monstre* listMonstreMap,ressource* listRessourceMap,Player *player){
+    int **map1= createMap(1,listMonstreMap,listRessourceMap,player);
+    int **map2= createMap(2,listMonstreMap,listRessourceMap,player);
+    int **map3= createMap(3,listMonstreMap,listRessourceMap,player);
     int ***listMap= malloc(sizeof(int**)*3);
     listMap[0]=map1;
     listMap[1]=map2;
@@ -43,7 +43,7 @@ void displayMap(int **map,int level){
 }
 
 //crée une carte et la retourne
-int ** createMap(int level,Monstre* listMonstreMap,Player *player){
+int ** createMap(int level,Monstre* listMonstreMap,ressource* listRessourceMap,Player *player){
     int size= getMapSize(level);
     int** map=malloc(sizeof(int*)*size);
     for(int x=0;x<size;x++){
@@ -55,7 +55,7 @@ int ** createMap(int level,Monstre* listMonstreMap,Player *player){
         }
     }
     map=fillWall(map,level);
-    map=fillItems(map,level);
+    map=fillItems(map,level,listRessourceMap);
     map=fillMob(map,level,listMonstreMap);
     map=fillOther(map,level,player);
     return map;
@@ -112,37 +112,40 @@ int **fillMob(int **map, int mapLevel,Monstre* listMonstreMap){
         randomMonster = ( rand() % 25 ) + 12;
         x = rand()% (getMapSize(mapLevel));
         y = rand()% (getMapSize(mapLevel));
-        if (map[x][y] == 0 /*&& monstres[randomMonster].lvlvalue == mapLevel*/)
+        while(monstreBase[b].id!=randomMonster&&b<100)b++;
+        if (map[x][y] == 0 && monstreBase[b].Level==mapLevel /*&& monstres[randomMonster].lvlvalue == mapLevel*/)
         {
             map[x][y] = randomMonster;
-            while(monstreBase[b].id!=randomMonster&&b<100){
-                b++;
-            }
-            listMonstreMap[i+c]=monstreBase[b];
+            listMonstreMap[c+i]=monstreBase[b];
             listMonstreMap[c+i].position_x=x;
             listMonstreMap[c+i].position_y=y;
             listMonstreMap[c+i].zone=mapLevel;
             listMonstreMap[c+i+1].id=-1;
-            b=0;
             i++;
         }
+        b=0;
     }
     return map;
 }
 
 //remplis la map avec les items
-int **fillItems(int **map, int mapLevel){
+int **fillItems(int **map, int mapLevel,ressource* listRessourceMap){
     srand(time(0));
+    char ***listMapBasse=maps(),***listItemBasse=creatData();
     int x;
     int y;
     int cpt = 0;
-    int typeItem = 3 * mapLevel;
+    int typeItem = 3 * mapLevel,c=0,b=0,a=0;
+    while(listRessourceMap[c].id!=-1){
+        c++;
+    }
     int *numbersOfMapObjects = (int *)malloc(sizeof(int)*3);
-    numbersOfMapObjects[0] =rand()% (10);
-    numbersOfMapObjects[1] =rand()% (10);
-    numbersOfMapObjects[2] =rand()% (10);
-    for (int i = 0; i < 3; i++)
-    {
+    numbersOfMapObjects[0] =(rand()%(10))+3;
+    numbersOfMapObjects[1] =(rand()%(10))+3;
+    numbersOfMapObjects[2] =(rand()%(10))+3;
+    for (int i = 0; i < 3; i++){
+        while(atoi(listMapBasse[b][0])!=typeItem)b++;
+        while(strcmp(listItemBasse[a][0],listMapBasse[b][3])!=0)a++;
         while (cpt < numbersOfMapObjects[i])
         {
             x = rand()% (getMapSize(mapLevel));
@@ -150,11 +153,19 @@ int **fillItems(int **map, int mapLevel){
             if (map[x][y] == 0)
             {
                 map[x][y] = typeItem;
+                listRessourceMap[c]= getOneRessource(atoi(listItemBasse[a][0]));
+                listRessourceMap[c].pos_x=x;
+                listRessourceMap[c].pos_y=y;
+                listRessourceMap[c].lvl=mapLevel;
+                listRessourceMap[c+1].id=-1;
+                c++;
                 cpt++;
             }
         }
         cpt = 0;
         typeItem++;
+        b=0;
+        a=0;
     }
     return map;
 }

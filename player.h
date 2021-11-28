@@ -13,7 +13,7 @@ typedef struct Player{
     char* Nom;
     int currentHP;
     int maxHP;
-    int* position_joueur;// [nbMap, x , y]
+    int position_joueur[3];// [nbMap, x , y]
     Item inventaire[10];
     int currentExperience;
     int maxExperience;

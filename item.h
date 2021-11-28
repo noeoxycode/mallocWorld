@@ -17,5 +17,6 @@ typedef struct Item{
 }Item;
 Item* getItem();
 void itemClear(Item *p);
+Item getOneItem(int i);
 
 #endif //MALLOCWORLD_ITEM_H
