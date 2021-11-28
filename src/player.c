@@ -18,13 +18,15 @@ void initPlayer(Player *p,char* nom){
     p -> maxHP = 100;
     p -> niveau = 1;
     p->currentExperience=0;
+    p->position_joueur[0]=1;
+    p->position_joueur[1]=0;
+    p->position_joueur[2]=0;
     p -> maxExperience = 10;
     p->currentWeapon=0;
     for (int i=0;i<4;i++) {
         p->inventaire[i] = listItem[i];
     }
-    p->inventaire[4] = listItem[14];
-    for (int i=5;i<10;i++) {
+    for (int i=4;i<10;i++) {
         itemClear(&p->inventaire[i]);
     }
 }

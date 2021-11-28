@@ -8,10 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <string.h>
 #include "monstres.h"
-#include "player.h"
 #include "ressource.h"
+#include "player.h"
 
 int ** createMap(int level,Monstre* listMonstreMap,ressource* listRessourceMap,Player *player);
 void displayMap(int **map,int level);

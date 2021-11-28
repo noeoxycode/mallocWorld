@@ -4,7 +4,7 @@
 //
 // Created by noe on 05/11/2021.
 //
-#include "../header/map_creator.h"
+#include "map_creator.h"
 
 int getMapSize(int level){
     if(level==1){

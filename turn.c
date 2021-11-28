@@ -1,13 +1,10 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include "../header/player.h"
-#include "../header/fight.h"
-#include "../header/monstres.h"
-#include "../header/recolte.h"
+//
+// Created by Velolime on 17/11/2021.
+//
 
-int *getPlayerPos(int ** map,int size);
-int * getPlayerAround(int **map, int size,Player* player);
-void printChoise(int num,char*dir,int lvl);
+#include "../header/turn.h"
+
+
 
 int *getPlayerPos(int ** map,int size){
     printf("in player pos %d %d, ",map[0][0],size);
